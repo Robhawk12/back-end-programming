@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ public class CartItem {
     @JoinColumn(name = "vacation_id")
     private Vacation vacation;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name ="excursion_cartitem", joinColumns = @JoinColumn(name = "cart_item_id"),
     inverseJoinColumns = @JoinColumn(name = "excursion_id"))
     private Set<Excursion> excursions;

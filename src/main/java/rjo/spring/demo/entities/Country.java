@@ -30,7 +30,8 @@ public class Country {
     @UpdateTimestamp
     private Date last_update;
 
-    @OneToMany(mappedBy = "country",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "division_id")
     private Set<Division> divisions;
 
     public Country() {

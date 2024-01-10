@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -42,10 +41,12 @@ public class Cart {
     @UpdateTimestamp
     private Date last_update;
 
-    @Column(name = "customer")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer")
     private Customer customer;
 
-    @OneToMany(mappedBy = "cart_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_item_id")
     private Set<CartItem> cart_items;
 
     public Cart(Long id, String order_tracking_number, BigDecimal package_price, int party_size, StatusType status, Date create_date, Date last_update, Customer customer, Set<CartItem> cart_items) {

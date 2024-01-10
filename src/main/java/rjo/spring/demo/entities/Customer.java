@@ -22,10 +22,10 @@ public class Customer {
     @Column(name ="first_name")
     private String firstName;
 
-    @Column(name ="last")
+    @Column(name ="last_name")
     private String lastName;
 
-    @Column(name ="adress")
+    @Column(name ="address")
     private String address;
 
     @Column(name ="postal_code")
@@ -38,7 +38,8 @@ public class Customer {
     @JoinColumn(name = "division_id",nullable = false)
     private Division division;
 
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
     private Set<Cart> carts;
 
     @Column(name = "create_date")
