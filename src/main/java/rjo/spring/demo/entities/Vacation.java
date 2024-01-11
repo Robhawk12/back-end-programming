@@ -19,6 +19,7 @@ public class Vacation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "vacation_title")
     private String vacation_title;
 
@@ -31,9 +32,9 @@ public class Vacation {
     @Column(name = "image_url")
     private String image_url;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "excursion_id")
-    private Set<Excursion> excursions;
+   @OneToMany(cascade = CascadeType.ALL,mappedBy = "id")
+
+   private Set<Excursion> excursions;
 
     @Column(name = "create_date")
     @CreationTimestamp
