@@ -17,7 +17,7 @@ public class Division {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name ="divisions")
+    @Column(name ="division")
     private String division_name;
 
     @ManyToOne
