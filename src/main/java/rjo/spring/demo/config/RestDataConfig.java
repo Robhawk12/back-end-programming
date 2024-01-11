@@ -1,6 +1,8 @@
 package rjo.spring.demo.config;
 
 
+import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -21,6 +23,7 @@ import rjo.spring.demo.entities.*;
  */
 @Configuration
 public class RestDataConfig implements RepositoryRestConfigurer {
+
 
     /**
      * This method exposes standard rest api end points for the following classes:
