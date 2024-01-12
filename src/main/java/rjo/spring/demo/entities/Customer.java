@@ -1,7 +1,9 @@
 package rjo.spring.demo.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,12 +13,16 @@ import java.util.Set;
 
 @Entity
 @Table(name = "customers")
+@NoArgsConstructor
+@AllArgsConstructor
+
 @Getter
 @Setter
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "customer_id",nullable = false)
     private Long id;
 
     @Column(name ="first_name")
@@ -34,11 +40,11 @@ public class Customer {
     @Column(name ="phone")
     private String phone;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "division_id",nullable = false)
     private Division division;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private Set<Cart> carts;
 
@@ -50,19 +56,4 @@ public class Customer {
     @UpdateTimestamp
     private Date last_update;
 
-    public Customer() {
-    }
-
-    public Customer(Long id, String firstName, String lastName, String address, String postal_code, String phone, Division division, Set<Cart> carts, Date create_date, Date last_update) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.postal_code = postal_code;
-        this.phone = phone;
-        this.division = division;
-        this.carts = carts;
-        this.create_date = create_date;
-        this.last_update = last_update;
-    }
 }

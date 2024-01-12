@@ -1,7 +1,9 @@
 package rjo.spring.demo.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,18 +11,22 @@ import java.util.Date;
 
 @Entity
 @Table(name = "divisions")
+@NoArgsConstructor
+@AllArgsConstructor
+
 @Getter
 @Setter
 public class Division {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "division_id",nullable = false)
     private Long id;
 
     @Column(name ="division")
     private String division_name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
 
@@ -31,17 +37,6 @@ public class Division {
     @Column(name = "last_update")
     @UpdateTimestamp
     private Date last_update;
-
-    public Division() {
-    }
-
-    public Division(Long id, String division_name, Country country, Date create_date, Date last_update) {
-        this.id = id;
-        this.division_name = division_name;
-        this.country = country;
-        this.create_date = create_date;
-        this.last_update = last_update;
-    }
 
     public void setCountry(Country country) {
         this.country = country;

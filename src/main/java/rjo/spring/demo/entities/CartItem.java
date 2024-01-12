@@ -1,7 +1,9 @@
 package rjo.spring.demo.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,13 +13,16 @@ import java.util.Set;
 
 @Entity
 @Table(name = "cart_items")
+@NoArgsConstructor
+@AllArgsConstructor
+
 @Getter
 @Setter
 public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "cart_item_id",nullable = false)
     private Long id;
 
 
@@ -43,15 +48,4 @@ public class CartItem {
     private Date last_update;
 
 
-    public CartItem() {
-    }
-
-    public CartItem(Long id, Vacation vacation, Set<Excursion> excursions, Cart cart, Date create_date, Date last_update) {
-        this.id = id;
-        this.vacation = vacation;
-        this.excursions = excursions;
-        this.cart = cart;
-        this.create_date = create_date;
-        this.last_update = last_update;
-    }
 }

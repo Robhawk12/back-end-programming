@@ -1,7 +1,9 @@
 package rjo.spring.demo.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,13 +14,15 @@ import java.util.Set;
 
 @Entity
 @Table(name = "carts")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "cart_id",nullable = false)
     private Long id;
 
     @Column(name = "order_tracking_number")
@@ -42,29 +46,11 @@ public class Cart {
     private Date last_update;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_item_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cart",fetch = FetchType.LAZY)
     private Set<CartItem> cart_items;
-
-    public Cart(Long id, String order_tracking_number, BigDecimal package_price, int party_size, StatusType status, Date create_date, Date last_update, Customer customer, Set<CartItem> cart_items) {
-        this.id = id;
-        this.order_tracking_number = order_tracking_number;
-        this.package_price = package_price;
-        this.party_size = party_size;
-        this.status = status;
-        this.create_date = create_date;
-        this.last_update = last_update;
-        this.customer = customer;
-        this.cart_items = cart_items;
-    }
-
-    public Cart() {
-
-    }
-
 
 
 }

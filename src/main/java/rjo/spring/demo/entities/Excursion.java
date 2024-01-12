@@ -1,7 +1,9 @@
 package rjo.spring.demo.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,12 +14,15 @@ import java.util.Set;
 
 @Entity
 @Table(name = "excursions")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Excursion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "excursion_id",nullable = false)
     private Long id;
 
     @Column(name ="excursion_title")
@@ -29,12 +34,12 @@ public class Excursion {
     @Column(name ="image_url")
     private String image_URL;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vacation_id", nullable = false)
     private Vacation vacation;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(name ="excursion_cartitem", joinColumns = @JoinColumn(name = "excursion_id"),
             inverseJoinColumns = @JoinColumn(name = "cartitem_id"))
     private Set<CartItem> cartItems;

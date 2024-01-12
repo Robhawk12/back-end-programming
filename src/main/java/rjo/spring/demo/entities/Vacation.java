@@ -1,7 +1,9 @@
 package rjo.spring.demo.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,12 +14,15 @@ import java.util.Set;
 
 @Entity
 @Table(name = "vacations")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Vacation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "vacation_id",nullable = false)
     private Long id;
 
     @Column(name = "vacation_title")
@@ -32,8 +37,7 @@ public class Vacation {
     @Column(name = "image_url")
     private String image_url;
 
-   @OneToMany(cascade = CascadeType.ALL,mappedBy = "id")
-
+   @OneToMany(cascade = CascadeType.ALL,mappedBy = "vacation",fetch = FetchType.LAZY)
    private Set<Excursion> excursions;
 
     @Column(name = "create_date")
