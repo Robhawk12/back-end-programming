@@ -13,7 +13,6 @@ import java.util.Date;
 @Table(name = "divisions")
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Getter
 @Setter
 public class Division {
@@ -27,7 +26,7 @@ public class Division {
     private String division_name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id")
+    @JoinColumn(name = "country_id",nullable = false,updatable = false,insertable = false)
     private Country country;
 
     @Column(name = "create_date")
@@ -38,7 +37,11 @@ public class Division {
     @UpdateTimestamp
     private Date last_update;
 
+    @Column(name = "Country_ID")
+    private long country_id;
     public void setCountry(Country country) {
+
+        setCountry_id(country.getId());
         this.country = country;
     }
 }

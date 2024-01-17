@@ -35,7 +35,7 @@ public class Vacation {
     private BigDecimal travel_price;
 
     @Column(name = "image_url")
-    private String image_url;
+    private String image_URL;
 
    @OneToMany(cascade = CascadeType.ALL,mappedBy = "vacation",fetch = FetchType.LAZY)
    private Set<Excursion> excursions;

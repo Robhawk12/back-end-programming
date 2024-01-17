@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,30 +23,29 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id",nullable = false)
+    @Column(name = "customer_id", nullable = false)
     private Long id;
 
-    @Column(name ="first_name")
+    @Column(name = "customer_first_name")
     private String firstName;
 
-    @Column(name ="last_name")
+    @Column(name = "customer_last_name")
     private String lastName;
 
-    @Column(name ="address")
+    @Column(name = "address")
     private String address;
 
-    @Column(name ="postal_code")
+    @Column(name = "postal_code")
     private String postal_code;
 
-    @Column(name ="phone")
+    @Column(name = "phone")
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "division_id",nullable = false)
+    @JoinColumn(name = "division_id", nullable = false)
     private Division division;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
     private Set<Cart> carts;
 
     @Column(name = "create_date")
@@ -55,5 +55,17 @@ public class Customer {
     @Column(name = "last_update")
     @UpdateTimestamp
     private Date last_update;
+
+    public void add(Cart cart) {
+        if (cart != null) {
+            if (carts == null) {
+                carts = new HashSet<>();
+            }
+
+            carts.add(cart);
+            cart.setCustomer(this);
+        }
+
+    }
 
 }
