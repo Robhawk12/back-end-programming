@@ -2,12 +2,11 @@ package rjo.spring.demo.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import rjo.spring.demo.dao.CartRepository;
 import rjo.spring.demo.dao.CustomerRepository;
 import rjo.spring.demo.entities.Cart;
 import rjo.spring.demo.entities.CartItem;
-import rjo.spring.demo.entities.Customer;
+
 
 import java.util.Set;
 import java.util.UUID;
