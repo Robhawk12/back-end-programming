@@ -6,6 +6,7 @@ import rjo.spring.demo.dao.CartRepository;
 import rjo.spring.demo.dao.CustomerRepository;
 import rjo.spring.demo.entities.Cart;
 import rjo.spring.demo.entities.CartItem;
+import rjo.spring.demo.entities.Customer;
 
 
 import java.util.Set;
@@ -16,15 +17,14 @@ import static rjo.spring.demo.entities.StatusType.pending;
 
 @Service
 public class CheckoutServiceImpl implements CheckoutService{
-
     private CustomerRepository customerRepository;
     private CartRepository cartRepository;
-
 
     public CheckoutServiceImpl(CustomerRepository customerRepository,CartRepository cartRepository){
         this.customerRepository =customerRepository;
         this.cartRepository = cartRepository;
     }
+
 
     @Override
     @Transactional
@@ -32,12 +32,7 @@ public class CheckoutServiceImpl implements CheckoutService{
 
 
         Cart cart = purchase.getCart();
-        if (cart.getCart_items().isEmpty())
-        {    String order_tracking_number = " Empty Cart";
-            cart.setStatus(pending);
-            return new PurchaseResponse(order_tracking_number);
 
-        } else {
             cart.setStatus(ordered);
 
             String order_tracking_number = generateOrderTrackingNumber();
@@ -47,13 +42,20 @@ public class CheckoutServiceImpl implements CheckoutService{
             for (CartItem cartItem : cartItems) {
                 cart.add(cartItem);
             }
+        Customer customer = cart.getCustomer();
+        customer.add(cart);
 
-
+        customerRepository.save(customer);
+        if (cart.getCart_items().isEmpty()) {
+            String empty = " Empty Cart";
+            cart.setStatus(pending);
+            return new PurchaseResponse(empty);
+        }
             cartRepository.save(cart);
             //return response
             return new PurchaseResponse(order_tracking_number);
         }
-    }
+
     private String generateOrderTrackingNumber() {
         return UUID.randomUUID().toString();
     }

@@ -15,8 +15,6 @@ import java.util.Set;
 @Entity
 @Table(name = "customers")
 @NoArgsConstructor
-@AllArgsConstructor
-
 @Getter
 @Setter
 public class Customer {
@@ -55,6 +53,19 @@ public class Customer {
     @Column(name = "last_update")
     @UpdateTimestamp
     private Date last_update;
+
+    public Customer(Long id, String firstName, String lastName, String address, String postal_code, String phone, Division division, Set<Cart> carts, Date create_date, Date last_update) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.postal_code = postal_code;
+        this.phone = phone;
+        this.division = division;
+        this.carts = carts;
+        this.create_date = create_date;
+        this.last_update = last_update;
+    }
 
     public void add(Cart cart) {
         if (cart != null) {
