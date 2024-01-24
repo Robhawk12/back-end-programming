@@ -17,12 +17,11 @@ import static rjo.spring.demo.entities.StatusType.pending;
 @Service
 public class CheckoutServiceImpl implements CheckoutService{
 
-    private CustomerRepository customerRepository;
+
     private CartRepository cartRepository;
 
 
-    public CheckoutServiceImpl(CustomerRepository customerRepository,CartRepository cartRepository){
-        this.customerRepository =customerRepository;
+    public CheckoutServiceImpl(CartRepository cartRepository){
         this.cartRepository = cartRepository;
     }
 
@@ -32,12 +31,7 @@ public class CheckoutServiceImpl implements CheckoutService{
 
 
         Cart cart = purchase.getCart();
-        if (cart.getCart_items().isEmpty())
-        {    String order_tracking_number = " Empty Cart";
-            cart.setStatus(pending);
-            return new PurchaseResponse(order_tracking_number);
 
-        } else {
             cart.setStatus(ordered);
 
             String order_tracking_number = generateOrderTrackingNumber();
@@ -46,14 +40,19 @@ public class CheckoutServiceImpl implements CheckoutService{
             Set<CartItem> cartItems = purchase.getCartItems();
             for (CartItem cartItem : cartItems) {
                 cart.add(cartItem);
+
+
             }
-
-
+        if (cart.getCart_items().isEmpty()) {
+            String empty = " Empty Cart";
+            cart.setStatus(pending);
+            return new PurchaseResponse(empty);
+        }
             cartRepository.save(cart);
             //return response
             return new PurchaseResponse(order_tracking_number);
         }
-    }
+
     private String generateOrderTrackingNumber() {
         return UUID.randomUUID().toString();
     }
