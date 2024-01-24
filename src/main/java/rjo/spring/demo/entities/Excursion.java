@@ -10,12 +10,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "excursions")
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public class Excursion {
@@ -34,15 +34,13 @@ public class Excursion {
     @Column(name ="image_url")
     private String image_URL;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "vacation_id", nullable = false)
     private Vacation vacation;
 
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinTable(name ="excursion_cartitem", joinColumns = @JoinColumn(name = "excursion_id"),
-            inverseJoinColumns = @JoinColumn(name = "cartitem_id"))
-    private Set<CartItem> cartItems;
+    @ManyToMany(mappedBy = "excursions")
+    private Set<CartItem> cartItems = new HashSet<>();
 
     @Column(name = "create_date")
     @CreationTimestamp

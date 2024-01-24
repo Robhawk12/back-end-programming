@@ -16,18 +16,18 @@ import java.util.Set;
 @Entity
 @Table(name = "carts")
 @NoArgsConstructor
-@AllArgsConstructor
+
 @Getter
 @Setter
 public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cart_id",nullable = false)
+    @Column(name = "cart_id", nullable = false)
     private Long id;
 
     @Column(name = "order_tracking_number")
-    private String order_tracking_number;
+    private String orderTrackingNumber;
 
     @Column(name = "package_price")
     private BigDecimal package_price;
@@ -36,6 +36,7 @@ public class Cart {
     private int party_size;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private StatusType status;
 
     @Column(name = "create_date")
@@ -46,23 +47,30 @@ public class Cart {
     @UpdateTimestamp
     private Date last_update;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cart",fetch = FetchType.LAZY)
-    private Set<CartItem> cart_items;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    private Set<CartItem> cart_items = new HashSet<>();
 
-    public void add(CartItem cartItem){
+    public void add(CartItem cartItem) {
         if (cartItem != null) {
-         if(cart_items == null) {
-            cart_items = new HashSet<>();
-         }
-
-         cart_items.add(cartItem);
-         cartItem.setCart(this);
+            if (cart_items == null) {
+                cart_items = new HashSet<>();
+            }
+            cart_items.add(cartItem);
+            cartItem.setCart(this);
         }
     }
 
-
 }
+
+
+
+
+
+
+
+
+

@@ -5,7 +5,7 @@ import rjo.spring.demo.services.CheckoutService;
 import rjo.spring.demo.services.Purchase;
 import rjo.spring.demo.services.PurchaseResponse;
 
-@CrossOrigin("http://4200")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/checkout")
 public class CheckoutController {

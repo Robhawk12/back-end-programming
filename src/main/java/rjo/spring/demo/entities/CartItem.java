@@ -9,13 +9,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "cart_items")
 @NoArgsConstructor
-@AllArgsConstructor
-
 @Getter
 @Setter
 public class CartItem {
@@ -26,16 +25,16 @@ public class CartItem {
     private Long id;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vacation_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vacation_id",nullable = false)
     private Vacation vacation;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name ="excursion_cartitem", joinColumns = @JoinColumn(name = "cart_item_id"),
     inverseJoinColumns = @JoinColumn(name = "excursion_id"))
-    private Set<Excursion> excursions;
+    private Set<Excursion> excursions = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL )
     @JoinColumn(name = "cart_id")
     private Cart cart;
 

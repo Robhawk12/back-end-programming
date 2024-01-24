@@ -39,4 +39,5 @@ public class Country {
     @JoinColumn(name = "division_id")
     private Set<Division> divisions;
 
+
 }
