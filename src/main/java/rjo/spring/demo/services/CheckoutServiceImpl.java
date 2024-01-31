@@ -24,12 +24,9 @@ public class CheckoutServiceImpl implements CheckoutService{
         this.customerRepository =customerRepository;
         this.cartRepository = cartRepository;
     }
-
-
     @Override
     @Transactional
     public PurchaseResponse placeOrder(Purchase purchase) {
-
 
         Cart cart = purchase.getCart();
 
@@ -55,7 +52,6 @@ public class CheckoutServiceImpl implements CheckoutService{
             //return response
             return new PurchaseResponse(order_tracking_number);
         }
-
     private String generateOrderTrackingNumber() {
         return UUID.randomUUID().toString();
     }
